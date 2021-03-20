@@ -1,0 +1,6 @@
+enum Direction {
+  FORWARD=0,
+  BACK,
+  COUNTER_CLOCKWISE,
+  CLOCKWISE
+};
