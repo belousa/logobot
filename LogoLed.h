@@ -2,17 +2,20 @@
 #include "Logo.h"
 #include "Button.h"
 
+constexpr const int buttonPin = 8;
+
 Button button(8);
 
 #include "Scheduler.h"
 
 
 // The order is in Logo.h
-const int leds[4] = {9,10,11,12};
+constexpr const int leds[4] = {9,10,11,12};
 
 class LogoLed {
 public:
   void setup() {
+    button.setup();
     for (auto l : leds) {
       pinMode(l, OUTPUT);
     }
@@ -39,25 +42,32 @@ public:
   }
 
   void bow() {
+    beforeAction();
     blinkAllFast(600);
     completeAction();
   }
 
 private:
+  void beforeAction()
+  {
+    button.resetCounts();
+  }
 
   void completeAction() {
-    Scheduler::delay(random(1000, 6000));
+    Scheduler::delayUntil([](){return button.pushedCount() > 0;});
   }
   
 
   void walk(int led) 
   {
+    beforeAction();
     blinkFast(led, 500);
     glowSteady(led, 500);
     completeAction();
   }
   void turn(int led) 
   {
+    beforeAction();
     blinkFast(led, 300);
     glowSteady(led, 500);
     completeAction();

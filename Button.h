@@ -21,7 +21,7 @@ public:
   Button(char pin) : d_pin(pin) {}
 
 public:
-  void setUp() {
+  void setup() {
     pinMode(d_pin, INPUT);
   }
 
@@ -41,15 +41,15 @@ public:
  private:
 
   void debounce() {
-    bool rawState = (digitalRead(d_pin) == HIGH);
-    // true means pressed
-    if (rawState == d_isPressed) {
+    bool buttonReportsAsPressed = (digitalRead(d_pin) == HIGH);
+
+    if (buttonReportsAsPressed == d_isPressed) {
       // Set the counter that will eventually allow the state change
       d_counter = d_isPressed ? releaseCounter() : pressCounter();
     } else {
       if (--d_counter == 0) {
         // the state has been stable for a number of iteartions - accept it
-        d_isPressed = rawState;
+        d_isPressed = buttonReportsAsPressed;
         if (d_isPressed) ++d_pushedCount;
         else ++d_poppedCount;
         d_counter = d_isPressed ? releaseCounter() : pressCounter();

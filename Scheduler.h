@@ -9,9 +9,9 @@ struct Scheduler {
     button.update(ms);
   }
 
-  template <class F, class ARG>
-  static void delayUntil(F f,  ARG *arg) {
-    while (!f(arg)) {
+  template <class F, class ...ARGS>
+  static void delayUntil(F f,  ARGS... args) {
+    while (!f(args...)) {
       yield();
     }
   }
