@@ -1,5 +1,9 @@
 
 #include "Logo.h"
+#include "Button.h"
+
+Button button(8);
+
 #include "Scheduler.h"
 
 

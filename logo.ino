@@ -5,6 +5,7 @@ LogoLed logo;
 
 void setup() {
   logo.setup();
+  pinMode(13, OUTPUT);
 }
 
 
@@ -41,14 +42,18 @@ void done() {
 
 // the loop function runs over and over again forever
 void loop() {
-  fwd();
-  bow();
-  counter(2);
-  back(2);
-  counter();
-  fwd(2);
-  counter();
-  bow();
-  
-  done();
+//  fwd();
+//  bow();
+//  counter(2);
+//  back(2);
+//  counter();
+//  fwd(2);
+//  counter();
+//  bow();
+//  done();
+
+    digitalWrite(13, button.pushedCount() % 2);
+    yield();
 }
+
+#include "hooks.h"
