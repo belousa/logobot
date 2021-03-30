@@ -4,6 +4,17 @@
 LogoLed logo;
 
 void setup() {
+
+  // join I2C bus (I2Cdev library doesn't do this automatically)
+  Wire.begin();
+  Wire.setClock(400000);
+
+  // initialize serial communication
+  // (38400 chosen because it works as well at 8MHz as it does at 16MHz, but
+  // it's really up to you depending on your project)
+  Serial.begin(115200);
+
+  
   logo.setup();
   pinMode(13, OUTPUT);
 }
@@ -42,15 +53,15 @@ void done() {
 
 // the loop function runs over and over again forever
 void loop() {
-  fwd();
+  //fwd();
   bow();
   counter(2);
-  back(2);
+  //back(2);
+  clockw();
+  //fwd(2);
   counter();
-  fwd(2);
-  counter();
-  bow();
-  done();
+  //bow();
+  //done();
 }
 
 #include "hooks.h"

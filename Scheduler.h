@@ -7,6 +7,7 @@ struct Scheduler {
   static void yield() {
     auto ms = millis();
     button.update(ms);
+    yawSource.update(ms);
   }
 
   template <class F, class ...ARGS>
