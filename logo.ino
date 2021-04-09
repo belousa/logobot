@@ -1,9 +1,11 @@
+#include <Wire.h>
 
-#include "LogoLed.h"
+#include "LogoMotor.h"
 
-LogoLed logo;
+LogoMotor logo;
 
-void setup() {
+void setup()
+{
 
   // join I2C bus (I2Cdev library doesn't do this automatically)
   Wire.begin();
@@ -14,15 +16,15 @@ void setup() {
   // it's really up to you depending on your project)
   Serial.begin(115200);
 
-  
+  Serial.println(F("Setup called first"));
+
   logo.setup();
   pinMode(13, OUTPUT);
 }
 
-
 void fwd(int steps = 1)
 {
-  logo.walk(FORWARD, steps);
+  logo.walk(FWD, steps);
 }
 
 void back(int steps = 1)
@@ -38,30 +40,35 @@ void clockw(int rightAngles = 1)
 void counter(int rightAngles = 1)
 {
   logo.turn(COUNTER_CLOCKWISE, rightAngles);
-
 }
-
 
 void bow()
 {
   logo.bow();
 }
 
-void done() {
-  logo.done();
+void done()
+{
+  while (true)
+  {
+  }
 }
 
 // the loop function runs over and over again forever
-void loop() {
-  //fwd();
-  bow();
-  counter(2);
-  //back(2);
-  clockw();
-  //fwd(2);
-  counter();
+void loop()
+{
+  fwd();
   //bow();
-  //done();
+  counter(2);
+  back(2);
+  clockw();
+  fwd(2);
+  //counter();
+  //bow();
+
+  back();
+
+  done();
 }
 
 #include "hooks.h"

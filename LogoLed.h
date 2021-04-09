@@ -149,7 +149,7 @@ private:
       ::digitalWrite(led, LOW);
   }
 
-  float computeNewYaw(Direction dir) {
+  int computeNewYaw(Direction dir) {
     auto incr = YawSource::clockwiseSign * 90;
     if (dir == CLOCKWISE) {
       desiredYaw += incr;
