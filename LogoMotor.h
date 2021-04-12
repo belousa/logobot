@@ -12,11 +12,11 @@ YawSource yawSource;
 
 #include "Scheduler.h"
 
-
 class LogoMotor
 {
     int desiredYaw = 0;
     Chassis chassis;
+
 public:
     void setup()
     {
@@ -48,9 +48,12 @@ public:
 private:
     void walk(Direction dir)
     {
-        if (dir == FWD) {
+        if (dir == FWD)
+        {
             chassis.forward(Speed::FAST);
-        } else {
+        }
+        else
+        {
             chassis.back(Speed::FAST);
         }
 
@@ -64,8 +67,10 @@ private:
     void turn(Direction dir)
     {
         YawDifference diff(computeNewYaw(dir));
-        
-        do {
+
+        do
+        {
+            yield();
             auto yaw = yawSource.yaw();
             auto angle = diff.turnAngle(yaw);
             auto diff = abs(angle);
@@ -77,46 +82,59 @@ private:
             Serial.print(angle);
             Serial.print('\t');
             Serial.println(diff);
-            
-            if (diff == 0) {
+
+            if (diff == 0)
+            {
                 // turn complete
                 break;
             }
 
             int sign = (angle > 0 ? 1 : -1);
-            
+
             bool shouldTurnClockwise = (sign == YawSource::clockwiseSign);
 
             auto speed = Speed::FAST;
-            if (diff <= 30) {
-                if (diff <= 10) {
+            if (diff <= 30)
+            {
+                if (diff <= 10)
+                {
                     speed = Speed::SLOW;
-                } else {
+                }
+                else
+                {
                     speed = Speed::SLOWER;
                 }
             }
 
-            if (shouldTurnClockwise) {
+            if (shouldTurnClockwise)
+            {
                 chassis.clockwise(speed);
-            } else {
+            }
+            else
+            {
                 chassis.counterclockwise(speed);
             }
 
         } while (true);
     }
 
-    int computeNewYaw(Direction dir) {
+    int computeNewYaw(Direction dir)
+    {
         auto incr = YawSource::clockwiseSign * 90;
-        if (dir == CLOCKWISE) {
+        if (dir == CLOCKWISE)
+        {
             desiredYaw += incr;
-        } else {
+        }
+        else
+        {
             desiredYaw -= incr;
         }
 
-        if (desiredYaw > 180) desiredYaw -= 360;
-        if (desiredYaw < -180) desiredYaw += 360;
+        if (desiredYaw > 180)
+            desiredYaw -= 360;
+        if (desiredYaw < -180)
+            desiredYaw += 360;
 
         return desiredYaw;
     }
-
 };

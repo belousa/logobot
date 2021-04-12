@@ -24,11 +24,13 @@ class Chassis
         RIGHT = 1
     };
 
-    Motor motors[2] = {{shield.getMotor(1), RELEASE, 0}, {shield.getMotor(2), RELEASE, 0}};
+    Motor motors[2] = {{nullptr, RELEASE, 0}, {nullptr, RELEASE, 0}};
 
 public:
     void begin() {
         shield.begin();
+        motors[LEFT].motor = shield.getMotor(1);
+        motors[RIGHT].motor = shield.getMotor(2);
     }
 
 public:
@@ -71,6 +73,9 @@ public:
         auto &m = motors[side];
         if (m.state != newState)
         {
+            Serial.print("for motor:"); Serial.println(side);
+            Serial.print("old state:"); Serial.println(m.state);
+            Serial.print("new state:"); Serial.println(newState);
             m.motor->run(m.state = newState);
         }
     }
@@ -81,12 +86,16 @@ public:
         speed(RIGHT, speeds[(uint8_t)spd]);
     }
 
-    void speed(uint8_t side, uint8_t newSpeed)
+    void speed(uint8_t side, uint8_t motorSpeed)
     {
         auto &m = motors[side];
-        if (m.speed != newSpeed)
+        if (m.speed != motorSpeed)
         {
-            m.motor->run(m.speed = newSpeed);
+            Serial.print("for motor:"); Serial.println(side);
+            Serial.print("old speed:"); Serial.println(m.speed);
+            Serial.print("new speed:"); Serial.println(motorSpeed);
+
+            m.motor->run(m.speed = motorSpeed);
         }
     }
 };
