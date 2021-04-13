@@ -75,13 +75,13 @@ private:
             auto angle = diff.turnAngle(yaw);
             auto diff = abs(angle);
 
-            Serial.print(desiredYaw);
-            Serial.print('\t');
-            Serial.print(yaw);
-            Serial.print('\t');
-            Serial.print(angle);
-            Serial.print('\t');
-            Serial.println(diff);
+            // Serial.print(desiredYaw);
+            // Serial.print('\t');
+            // Serial.print(yaw);
+            // Serial.print('\t');
+            // Serial.print(angle);
+            // Serial.print('\t');
+            // Serial.println(diff);
 
             if (diff == 0)
             {

@@ -8,6 +8,7 @@ private:
   MPU6050 mpu;
   bool isReady = false;
   float currentYaw = 0;
+  unsigned long lastCheck = 0;
 
 public:
 
@@ -32,6 +33,8 @@ public:
   
   void update(unsigned long ms) {
     if (!isReady) return;
+    if (lastCheck == ms) return;
+    lastCheck = ms;
 
     uint8_t fifoBuffer[64];
 

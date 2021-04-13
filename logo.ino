@@ -58,6 +58,8 @@ void done()
 void loop()
 {
   fwd();
+  back(2);
+  fwd();
   //bow();
   counter(2);
   back(2);

@@ -76,8 +76,8 @@ public:
             Serial.print("for motor:"); Serial.println(side);
             Serial.print("old state:"); Serial.println(m.state);
             Serial.print("new state:"); Serial.println(newState);
-            m.motor->run(m.state = newState);
-        }
+            m.motor->run(newState);
+            m.state = newState;        }
     }
 
     void speed(Speed spd)
@@ -95,7 +95,8 @@ public:
             Serial.print("old speed:"); Serial.println(m.speed);
             Serial.print("new speed:"); Serial.println(motorSpeed);
 
-            m.motor->run(m.speed = motorSpeed);
+            m.motor->setSpeed(motorSpeed);
+            m.speed = motorSpeed;
         }
     }
 };
