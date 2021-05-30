@@ -68,20 +68,24 @@ private:
     {
         YawDifference diff(computeNewYaw(dir));
 
+        auto oldAngle = 0;
+        
         do
         {
             yield();
             auto yaw = yawSource.yaw();
             auto angle = diff.turnAngle(yaw);
             auto diff = abs(angle);
-
-            // Serial.print(desiredYaw);
-            // Serial.print('\t');
-            // Serial.print(yaw);
-            // Serial.print('\t');
-            // Serial.print(angle);
-            // Serial.print('\t');
-            // Serial.println(diff);
+            if (oldAngle != angle) {
+                Serial.print(yaw);
+                Serial.print('\t');
+                Serial.print(desiredYaw);
+                Serial.print('\t');
+                Serial.print(angle);
+                Serial.print('\t');
+                Serial.println(diff);
+                oldAngle = angle;
+            }
 
             if (diff == 0)
             {

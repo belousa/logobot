@@ -9,7 +9,7 @@ enum class Speed : uint8_t
 
 class Chassis
 {
-    static const inline uint8_t speeds[3] = {255, 125, 80};
+    static const inline uint8_t speeds[3] = {250, 100, 60};
     Adafruit_MotorShield shield;
 
     struct Motor

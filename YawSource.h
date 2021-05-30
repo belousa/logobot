@@ -1,6 +1,5 @@
-
+#define DEBUG 1
 #include "MPU6050_6Axis_MotionApps20.h"
-
 
 class YawSource
 {
@@ -11,38 +10,48 @@ private:
   unsigned long lastCheck = 0;
 
 public:
-
-  void setup() {
-    if (!mpu.testConnection()) {
+  void setup()
+  {
+    if (!mpu.testConnection())
+    {
       // TODO: do some blinking
       return;
     }
 
-    if (0 != mpu.dmpInitialize()) {
+    if (0 != mpu.dmpInitialize())
+    {
       // TODO: do some blinking
       Serial.println(F("Yaw Initialization Failed"));
-      return;     
+      return;
     }
-    
+
     mpu.CalibrateAccel(6);
     mpu.CalibrateGyro(6);
     mpu.setDMPEnabled(true);
     Serial.println(F("Yaw Initializated"));
     isReady = true;
   }
-  
-  void update(unsigned long ms) {
-    if (!isReady) return;
-    if (lastCheck == ms) return;
+
+  void update(unsigned long ms)
+  {
+
+    if (!isReady)
+      return;
+
+    if (lastCheck == ms)
+      return;
+
     lastCheck = ms;
 
     uint8_t fifoBuffer[64];
 
-    if (mpu.dmpGetCurrentFIFOPacket(fifoBuffer)) {
- 
-      Quaternion q;           // [w, x, y, z]         quaternion container
-      VectorFloat gravity;    // [x, y, z]            gravity vector
-      float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+    auto rc = mpu.dmpGetCurrentFIFOPacket(fifoBuffer);
+
+    if (rc == 1)
+    {
+      Quaternion q;        // [w, x, y, z]         quaternion container
+      VectorFloat gravity; // [x, y, z]            gravity vector
+      float ypr[3];        // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
       mpu.dmpGetQuaternion(&q, fifoBuffer);
       mpu.dmpGetGravity(&gravity, &q);
@@ -52,9 +61,10 @@ public:
     }
   }
 
-  int yaw() {
-    return (int)(currentYaw  * 180/M_PI + 0.5); 
+  int yaw()
+  {
+    return (int)(currentYaw * 180 / M_PI + 0.5);
   }
 
-  constexpr static int clockwiseSign = -1;
+  constexpr static int clockwiseSign = 1;
 };

@@ -9,7 +9,7 @@ void setup()
 
   // join I2C bus (I2Cdev library doesn't do this automatically)
   Wire.begin();
-  Wire.setClock(400000);
+  Wire.setClock(100000);
 
   // initialize serial communication
   // (38400 chosen because it works as well at 8MHz as it does at 16MHz, but
@@ -57,20 +57,10 @@ void done()
 // the loop function runs over and over again forever
 void loop()
 {
+  clockw(2);
   fwd();
-  back(2);
-  fwd();
-  //bow();
   counter(2);
-  back(2);
-  clockw();
-  fwd(2);
-  //counter();
-  //bow();
-
-  back();
-
-  done();
+  fwd();
 }
 
 #include "hooks.h"
